@@ -50,11 +50,14 @@
         );
         
                 
-        if ( preg_match("/.*\..*/", $mask) ) 
+        if ( preg_match("/.*\..*/", $mask) ) {
             // Netmask given, find the CIDR
             foreach ($mappings as $cidr=>$value) if ($value == $mask) return $cidr;            
+        }
         else 
+        {
             // CIDR given, return netmask
             return ( $mappings[$mask] );
+        }
     }
 ?>
