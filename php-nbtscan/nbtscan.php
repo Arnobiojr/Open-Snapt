@@ -56,8 +56,7 @@ class nbtscan {
     * @return mixed
     */
     private function send_request() 
-    {
-        
+    {        
         // Initial udp connection
         $socket = fsockopen('udp://' . $this->ip, 137, $errno, $errstr, 5);
         if ($errno > 0) return false;
@@ -103,19 +102,18 @@ class nbtscan {
     * @return string
     */
     private function decode_response($resp) 
-    {
-        
-            $returned = array();
-        
-            $num_names = implode('', unpack("C", substr($resp, 56)));
-            $name_data = substr($resp, 57);
+    {        
+        $returned = array();
+    
+        $num_names = implode('', unpack("C", substr($resp, 56)));
+        $name_data = substr($resp, 57);
 
-            for ($i = 0; $i < $num_names; $i++) {
-                $rr_data = substr($name_data, 18*$i, 18);                
-                $returned[$i] = implode('', unpack("a15Cn", $rr_data));                
-            }        
-                       
-            return $new_string = trim(ereg_replace('[^A-Za-z0-9_\-]', "", $returned[0]));
+        for ($i = 0; $i < $num_names; $i++) {
+            $rr_data = substr($name_data, 18*$i, 18);                
+            $returned[$i] = implode('', unpack("a15Cn", $rr_data));                
+        }        
+                   
+        return $new_string = trim(ereg_replace('[^A-Za-z0-9_\-]', "", $returned[0]));
     }
         
          
@@ -131,7 +129,6 @@ class nbtscan {
     */
     private function encode_name($name, $pad, $suffix) 
     {
-    
         $name = str_pad($name, 16, $pad);
         $name[16] = chr($suffix  & 0xFF);
         
